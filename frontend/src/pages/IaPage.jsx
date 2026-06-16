@@ -1,6 +1,7 @@
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { Link } from 'react-router-dom';
+import { Icon } from '../components/Icon';
 
 const FACTORES = [
   { factor: 'Hash perceptual de imagen (imagehash)', score: 82, color: '#065A82' },
@@ -19,7 +20,9 @@ export function IaPage() {
   return (
     <div className="space-y-4">
       <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 text-sm text-purple-800">
-        <p className="font-bold mb-1">🤖 Motor IA — imagehash (Pillow)</p>
+        <p className="font-bold mb-1 inline-flex items-center gap-2">
+          <Icon name="robot" /> Motor IA — imagehash (Pillow)
+        </p>
         <p>
           Compara imágenes de mascotas perdidas vs encontradas usando perceptual hash. En
           producción: CNN/CLIP embeddings para mayor precisión.
@@ -28,7 +31,7 @@ export function IaPage() {
 
       {matchesConEncontrada.length === 0 ? (
         <div className="bg-white rounded-xl p-8 shadow-sm border text-center text-gray-400">
-          <p className="text-5xl mb-2">🔍</p>
+          <Icon name="search" className="text-5xl mb-2 text-gray-300" />
           <p>No hay coincidencias activas. Sube fotos en tus reportes para activar el matching.</p>
         </div>
       ) : (
@@ -38,7 +41,7 @@ export function IaPage() {
             <div key={p.id} className="border border-yellow-200 bg-yellow-50 rounded-xl p-4">
               <div className="flex items-center gap-4">
                 <div className="text-center">
-                  <div className="text-3xl">🔍</div>
+                  <Icon name="search" className="text-3xl text-red-500" />
                   <p className="text-xs font-medium text-red-600">PERDIDA</p>
                   <p className="text-xs text-gray-600">
                     {p.nombre} · {p.zona}
@@ -55,7 +58,7 @@ export function IaPage() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl">🐾</div>
+                  <Icon name="heart-fill" className="text-3xl text-orange-500" />
                   <p className="text-xs font-medium text-orange-600">CANDIDATA</p>
                   <p className="text-xs text-gray-600">BD</p>
                 </div>

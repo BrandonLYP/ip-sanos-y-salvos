@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { ErrorMessage } from '../components/ErrorMessage';
+import { Icon } from '../components/Icon';
 import { useAuth } from '../context/AuthContext';
 import api, { getMediaUrl } from '../services/api';
 
@@ -68,8 +69,11 @@ export function MascotaDetallePage() {
             onError={(e) => (e.currentTarget.style.display = 'none')}
           />
         ) : (
-          <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-7xl">
-            {pet.tipo === 'perdida' ? '🔍' : '🐾'}
+          <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <Icon
+              name={pet.tipo === 'perdida' ? 'search' : 'heart-fill'}
+              className="text-7xl text-gray-400"
+            />
           </div>
         )}
 
@@ -104,10 +108,10 @@ export function MascotaDetallePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-3 text-sm">
-            <Info label="📍 Zona" value={pet.zona || '—'} />
-            <Info label="📅 Fecha" value={pet.fecha || '—'} />
-            <Info label="📝 Descripción" value={pet.descripcion || '—'} full />
-            <Info label="📱 Contacto" value={pet.contacto || '—'} />
+            <Info label="Zona" icon="geo-alt-fill" value={pet.zona || '—'} />
+            <Info label="Fecha" icon="calendar-event-fill" value={pet.fecha || '—'} />
+            <Info label="Descripción" icon="pencil-square" value={pet.descripcion || '—'} full />
+            <Info label="Contacto" icon="phone-fill" value={pet.contacto || '—'} />
           </div>
 
           {pet.contacto && (
@@ -115,18 +119,18 @@ export function MascotaDetallePage() {
               href={`https://wa.me/${pet.contacto.replace(/\D/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full bg-green-500 hover:bg-green-600 text-white rounded-lg py-2 text-sm font-bold text-center"
+              className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white rounded-lg py-2 text-sm font-bold"
             >
-              💬 Contactar por WhatsApp
+              <Icon name="chat-dots-fill" /> Contactar por WhatsApp
             </a>
           )}
 
           {isOwner && pet.estado !== 'recuperada' && (
             <button
               onClick={handleMarcarRecuperada}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 text-sm font-bold"
+              className="flex items-center justify-center gap-2 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 text-sm font-bold"
             >
-              ✅ Marcar como recuperada
+              <Icon name="check-circle-fill" /> Marcar como recuperada
             </button>
           )}
         </div>
@@ -134,14 +138,16 @@ export function MascotaDetallePage() {
 
       {myMatches.length > 0 && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-          <p className="font-bold text-yellow-800 mb-2">🤖 Posibles coincidencias</p>
+          <p className="font-bold text-yellow-800 mb-2 inline-flex items-center gap-2">
+            <Icon name="robot" /> Posibles coincidencias
+          </p>
           {myMatches.map((m) => (
             <Link
               key={m.id}
               to={`/mascotas/${m.id}`}
               className="flex items-center gap-3 bg-white rounded-lg p-3 mb-2 hover:shadow"
             >
-              <div className="text-2xl">🐾</div>
+              <Icon name="heart-fill" className="text-2xl text-yellow-600" />
               <div className="flex-1">
                 <p className="font-medium text-sm">
                   {m.nombre} · {m.zona}
@@ -157,7 +163,9 @@ export function MascotaDetallePage() {
       )}
 
       <div className="bg-white rounded-xl shadow-sm border p-4">
-        <p className="font-bold text-gray-700 mb-3">👀 Avistamientos</p>
+        <p className="font-bold text-gray-700 mb-3 inline-flex items-center gap-2">
+          <Icon name="eye-fill" /> Avistamientos
+        </p>
 
         {user && pet.estado === 'activa' && (
           <form onSubmit={handleReportarAvistamiento} className="flex gap-2 mb-4">
@@ -216,10 +224,10 @@ export function MascotaDetallePage() {
               setLightbox(null);
               setZoomed(false);
             }}
-            className="absolute top-4 right-4 text-white text-3xl bg-black/40 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center"
+            className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center"
             aria-label="Cerrar"
           >
-            &times;
+            <Icon name="x-lg" className="text-lg" />
           </button>
         </div>
       )}
@@ -227,10 +235,13 @@ export function MascotaDetallePage() {
   );
 }
 
-function Info({ label, value, full }) {
+function Info({ label, value, full, icon }) {
   return (
     <div className={full ? 'md:col-span-2' : ''}>
-      <p className="text-xs text-gray-500">{label}</p>
+      <p className="text-xs text-gray-500 inline-flex items-center gap-1">
+        {icon && <Icon name={icon} />}
+        {label}
+      </p>
       <p className="text-sm text-gray-800">{value}</p>
     </div>
   );
