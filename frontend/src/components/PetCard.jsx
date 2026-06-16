@@ -27,7 +27,10 @@ export function PetCard({ pet, onSelect: _onSelect }) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <Icon name={pet.tipo === 'perdida' ? 'search' : 'paw-fill'} className="text-gray-400" />
+            <Icon
+              name={pet.tipo === 'perdida' ? 'search' : 'heart-fill'}
+              className="text-gray-400"
+            />
           )}
         </div>
         <div className="flex-1 min-w-0">

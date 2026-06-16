@@ -5,7 +5,7 @@ import { Icon } from './Icon';
 const NAV = [
   { to: '/', icon: 'bar-chart-fill', label: 'Dashboard' },
   { to: '/mapa', icon: 'map-fill', label: 'Mapa' },
-  { to: '/mascotas', icon: 'paw-fill', label: 'Mascotas' },
+  { to: '/mascotas', icon: 'heart-fill', label: 'Mascotas' },
   { to: '/alertas', icon: 'bell-fill', label: 'Alertas' },
   { to: '/ia', icon: 'robot', label: 'Motor IA' },
 ];
@@ -23,7 +23,7 @@ export function Sidebar() {
     <div className="w-16 md:w-56 bg-gray-900 flex flex-col shrink-0">
       <div className="p-3 md:p-4 border-b border-gray-700">
         <div className="flex items-center gap-2">
-          <Icon name="paw-fill" className="text-2xl text-teal-400" />
+          <Icon name="heart-fill" className="text-2xl text-teal-400" />
           <div className="hidden md:block">
             <p className="text-white font-bold text-sm leading-tight">Sanos y Salvos</p>
             <p className="text-gray-400 text-xs">MVP v0.1</p>
@@ -76,7 +76,7 @@ export function Sidebar() {
           to="/reportar/encontrada"
           className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-2 md:px-3 py-2 text-xs font-bold flex items-center gap-2 transition"
         >
-          <Icon name="paw-fill" />
+          <Icon name="heart-fill" />
           <span className="hidden md:block">Reportar encontrada</span>
         </Link>
       </div>

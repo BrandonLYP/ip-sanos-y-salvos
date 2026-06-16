@@ -19,7 +19,7 @@ const TIPO_COLOR = {
 const tipoIcon = (tipo) =>
   new L.DivIcon({
     className: 'mascota-marker',
-    html: `<div style="width:32px;height:32px;border-radius:50%;background:${TIPO_COLOR[tipo] || '#999'};border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:16px;"><i class="bi bi-${tipo === 'perdida' ? 'search' : 'paw-fill'}"></i></div>`,
+    html: `<div style="width:32px;height:32px;border-radius:50%;background:${TIPO_COLOR[tipo] || '#999'};border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:16px;"><i class="bi bi-${tipo === 'perdida' ? 'search' : 'heart-fill'}"></i></div>`,
     iconSize: [32, 32],
     iconAnchor: [16, 16],
   });

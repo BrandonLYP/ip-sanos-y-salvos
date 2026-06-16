@@ -71,7 +71,7 @@ export function MascotaDetallePage() {
         ) : (
           <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
             <Icon
-              name={pet.tipo === 'perdida' ? 'search' : 'paw-fill'}
+              name={pet.tipo === 'perdida' ? 'search' : 'heart-fill'}
               className="text-7xl text-gray-400"
             />
           </div>
@@ -147,7 +147,7 @@ export function MascotaDetallePage() {
               to={`/mascotas/${m.id}`}
               className="flex items-center gap-3 bg-white rounded-lg p-3 mb-2 hover:shadow"
             >
-              <Icon name="paw-fill" className="text-2xl text-yellow-600" />
+              <Icon name="heart-fill" className="text-2xl text-yellow-600" />
               <div className="flex-1">
                 <p className="font-medium text-sm">
                   {m.nombre} · {m.zona}

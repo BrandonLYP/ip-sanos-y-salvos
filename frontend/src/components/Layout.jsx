@@ -5,17 +5,17 @@ import { useLocation } from 'react-router-dom';
 const TITLES = {
   '/': { icon: 'bar-chart-fill', label: 'Dashboard' },
   '/mapa': { icon: 'map-fill', label: 'Mapa' },
-  '/mascotas': { icon: 'paw-fill', label: 'Mascotas' },
+  '/mascotas': { icon: 'heart-fill', label: 'Mascotas' },
   '/alertas': { icon: 'bell-fill', label: 'Alertas' },
   '/ia': { icon: 'robot', label: 'Motor IA' },
 };
 
 function getTitle(pathname) {
   if (TITLES[pathname]) return TITLES[pathname];
-  if (pathname.startsWith('/mascotas/')) return { icon: 'paw-fill', label: 'Detalle mascota' };
+  if (pathname.startsWith('/mascotas/')) return { icon: 'heart-fill', label: 'Detalle mascota' };
   if (pathname.startsWith('/reportar/'))
     return { icon: 'pencil-square', label: 'Reportar mascota' };
-  return { icon: 'paw-fill', label: 'Sanos y Salvos' };
+  return { icon: 'heart-fill', label: 'Sanos y Salvos' };
 }
 
 export function Layout({ children }) {

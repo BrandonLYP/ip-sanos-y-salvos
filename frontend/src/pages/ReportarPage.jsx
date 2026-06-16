@@ -86,7 +86,7 @@ export function ReportarPage() {
         className="px-4 py-3 rounded-lg -mx-6 -mt-6 mb-2 text-white font-bold inline-flex items-center gap-2 w-full"
         style={{ background: color }}
       >
-        <Icon name={isPerdida ? 'search' : 'paw-fill'} />
+        <Icon name={isPerdida ? 'search' : 'heart-fill'} />
         {isPerdida ? 'Reportar mascota perdida' : 'Reportar mascota encontrada'}
       </div>
 

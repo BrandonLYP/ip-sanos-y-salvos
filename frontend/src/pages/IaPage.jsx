@@ -58,7 +58,7 @@ export function IaPage() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <Icon name="paw-fill" className="text-3xl text-orange-500" />
+                  <Icon name="heart-fill" className="text-3xl text-orange-500" />
                   <p className="text-xs font-medium text-orange-600">CANDIDATA</p>
                   <p className="text-xs text-gray-600">BD</p>
                 </div>

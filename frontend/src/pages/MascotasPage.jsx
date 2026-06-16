@@ -59,7 +59,7 @@ export function MascotasPage() {
         ))}
         {filtered.length === 0 && (
           <div className="col-span-2 text-center py-12 text-gray-400">
-            <Icon name="paw-fill" className="text-4xl mb-2 text-gray-300" />
+            <Icon name="heart-fill" className="text-4xl mb-2 text-gray-300" />
             <p>Sin resultados</p>
           </div>
         )}

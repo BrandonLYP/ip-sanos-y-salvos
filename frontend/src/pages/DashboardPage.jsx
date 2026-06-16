@@ -37,7 +37,7 @@ export function DashboardPage() {
     {
       label: 'Mascotas encontradas',
       val: activas.filter((p) => p.tipo === 'encontrada').length,
-      icon: 'paw-fill',
+      icon: 'heart-fill',
       color: 'bg-orange-500',
     },
     { label: 'Recuperadas', val: recuperadas, icon: 'check-circle-fill', color: 'bg-green-500' },
