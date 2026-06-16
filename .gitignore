@@ -45,5 +45,14 @@ data/
 *.db
 *.sqlite
 *.sqlite3
+media/
+!media/.gitkeep
 media/uploads/
 !media/uploads/.gitkeep
+backend/media/
+backend/data/
+
+# Logs de servidores de desarrollo
+uvicorn.out
+uvicorn.err
+*.pid
