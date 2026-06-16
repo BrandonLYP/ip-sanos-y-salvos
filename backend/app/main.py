@@ -40,7 +40,7 @@ app.add_middleware(
 )
 
 Path(settings.upload_dir).mkdir(parents=True, exist_ok=True)
-app.mount("/uploads", StaticFiles(directory=settings.upload_dir), name="uploads")
+app.mount("/media", StaticFiles(directory=settings.upload_dir), name="media")
 
 app.include_router(auth_router)
 app.include_router(mascotas_router)
