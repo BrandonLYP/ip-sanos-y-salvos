@@ -12,6 +12,7 @@ import {
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { ErrorMessage } from '../components/ErrorMessage';
+import { Icon } from '../components/Icon';
 
 export function DashboardPage() {
   const { data: pets, loading, error, reload } = useFetch('/mascotas/');
@@ -30,17 +31,17 @@ export function DashboardPage() {
     {
       label: 'Mascotas perdidas',
       val: activas.filter((p) => p.tipo === 'perdida').length,
-      icon: '🔍',
+      icon: 'search',
       color: 'bg-red-500',
     },
     {
       label: 'Mascotas encontradas',
       val: activas.filter((p) => p.tipo === 'encontrada').length,
-      icon: '🐾',
+      icon: 'paw-fill',
       color: 'bg-orange-500',
     },
-    { label: 'Recuperadas', val: recuperadas, icon: '✅', color: 'bg-green-500' },
-    { label: 'Coincidencias IA', val: matchCount, icon: '🤖', color: 'bg-purple-500' },
+    { label: 'Recuperadas', val: recuperadas, icon: 'check-circle-fill', color: 'bg-green-500' },
+    { label: 'Coincidencias IA', val: matchCount, icon: 'robot', color: 'bg-purple-500' },
   ];
 
   return (
@@ -51,7 +52,7 @@ export function DashboardPage() {
             <div
               className={`w-10 h-10 ${s.color} rounded-full flex items-center justify-center text-xl mb-2`}
             >
-              {s.icon}
+              <Icon name={s.icon} className="text-xl text-white" />
             </div>
             <p className="text-2xl font-bold text-gray-800">{s.val}</p>
             <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>

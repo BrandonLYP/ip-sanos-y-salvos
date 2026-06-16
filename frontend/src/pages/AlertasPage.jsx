@@ -1,5 +1,6 @@
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
+import { Icon } from '../components/Icon';
 
 export function AlertasPage() {
   const { data: mascotas } = useFetch('/mascotas/');
@@ -13,14 +14,14 @@ export function AlertasPage() {
 
   const nuevas = recientes.map((p) => ({
     id: `nueva-${p.id}`,
-    mensaje: `🔔 Nuevo reporte: ${p.tipo === 'perdida' ? 'mascota perdida' : 'mascota encontrada'} en ${p.zona || 'zona sin especificar'} — ${p.nombre}`,
+    mensaje: `Nuevo reporte: ${p.tipo === 'perdida' ? 'mascota perdida' : 'mascota encontrada'} en ${p.zona || 'zona sin especificar'} — ${p.nombre}`,
     tiempo: 'Reciente',
     tipo: 'nuevo',
   }));
 
   const matchAlerts = matches.map((m) => ({
     id: `match-${m.id}`,
-    mensaje: `🤖 Posible coincidencia IA (${Math.round(m.match)}%): ${m.nombre} en ${m.zona || 'zona'}`,
+    mensaje: `Posible coincidencia IA (${Math.round(m.match)}%): ${m.nombre} en ${m.zona || 'zona'}`,
     tiempo: 'Coincidencia',
     tipo: 'match',
   }));
@@ -29,7 +30,7 @@ export function AlertasPage() {
     .filter((m) => m.estado === 'recuperada')
     .map((m) => ({
       id: `exito-${m.id}`,
-      mensaje: `✅ ${m.nombre} fue recuperado/a`,
+      mensaje: `${m.nombre} fue recuperado/a`,
       tiempo: 'Éxito',
       tipo: 'exito',
     }));
@@ -37,13 +38,19 @@ export function AlertasPage() {
   const all = [...nuevas, ...matchAlerts, ...successAlerts];
 
   if (all.length === 0) {
-    return <div className="text-center text-gray-400 py-12">Sin alertas por ahora 🐾</div>;
+    return (
+      <div className="text-center text-gray-400 py-12 inline-flex items-center gap-2 w-full justify-center">
+        <Icon name="bell-slash" />
+        Sin alertas por ahora
+      </div>
+    );
   }
 
   return (
     <div className="space-y-3">
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-700">
-        🔔 Alertas generadas en tiempo real desde la base de datos
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-700 inline-flex items-center gap-2 w-full">
+        <Icon name="bell-fill" />
+        Alertas generadas en tiempo real desde la base de datos
       </div>
       {all.map((a) => (
         <div

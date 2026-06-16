@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../services/api';
+import { Icon } from './Icon';
 
 export function PetCard({ pet, onSelect: _onSelect }) {
   const [imgError, setImgError] = useState(false);
@@ -26,7 +27,7 @@ export function PetCard({ pet, onSelect: _onSelect }) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <span>{pet.tipo === 'perdida' ? '🔍' : '🐾'}</span>
+            <Icon name={pet.tipo === 'perdida' ? 'search' : 'paw-fill'} className="text-gray-400" />
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -39,16 +40,16 @@ export function PetCard({ pet, onSelect: _onSelect }) {
               {pet.estado}
             </span>
             {pet.match > 70 && (
-              <span className="text-xs px-2 py-0.5 rounded-full font-bold bg-yellow-100 text-yellow-700 animate-pulse">
-                🤖 Match {Math.round(pet.match)}%
+              <span className="text-xs px-2 py-0.5 rounded-full font-bold bg-yellow-100 text-yellow-700 animate-pulse inline-flex items-center gap-1">
+                <Icon name="robot" /> Match {Math.round(pet.match)}%
               </span>
             )}
           </div>
           <p className="text-sm text-gray-500 mt-1">
             {pet.raza} · {pet.color} · {pet.sexo}
           </p>
-          <p className="text-xs text-gray-400 mt-0.5">
-            📍 {pet.zona || 'Sin zona'} · {pet.fecha}
+          <p className="text-xs text-gray-400 mt-0.5 inline-flex items-center gap-1">
+            <Icon name="geo-alt-fill" /> {pet.zona || 'Sin zona'} · {pet.fecha}
           </p>
           {pet.descripcion && (
             <p className="text-xs text-gray-500 mt-1 truncate">{pet.descripcion}</p>

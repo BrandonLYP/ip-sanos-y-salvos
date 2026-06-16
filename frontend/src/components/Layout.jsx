@@ -1,19 +1,21 @@
 import { Sidebar } from './Sidebar';
+import { Icon } from './Icon';
 import { useLocation } from 'react-router-dom';
 
 const TITLES = {
-  '/': { icon: '📊', label: 'Dashboard' },
-  '/mapa': { icon: '🗺️', label: 'Mapa' },
-  '/mascotas': { icon: '🐾', label: 'Mascotas' },
-  '/alertas': { icon: '🔔', label: 'Alertas' },
-  '/ia': { icon: '🤖', label: 'Motor IA' },
+  '/': { icon: 'bar-chart-fill', label: 'Dashboard' },
+  '/mapa': { icon: 'map-fill', label: 'Mapa' },
+  '/mascotas': { icon: 'paw-fill', label: 'Mascotas' },
+  '/alertas': { icon: 'bell-fill', label: 'Alertas' },
+  '/ia': { icon: 'robot', label: 'Motor IA' },
 };
 
 function getTitle(pathname) {
   if (TITLES[pathname]) return TITLES[pathname];
-  if (pathname.startsWith('/mascotas/')) return { icon: '🐾', label: 'Detalle mascota' };
-  if (pathname.startsWith('/reportar/')) return { icon: '📝', label: 'Reportar mascota' };
-  return { icon: '🐾', label: 'Sanos y Salvos' };
+  if (pathname.startsWith('/mascotas/')) return { icon: 'paw-fill', label: 'Detalle mascota' };
+  if (pathname.startsWith('/reportar/'))
+    return { icon: 'pencil-square', label: 'Reportar mascota' };
+  return { icon: 'paw-fill', label: 'Sanos y Salvos' };
 }
 
 export function Layout({ children }) {
@@ -26,8 +28,9 @@ export function Layout({ children }) {
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="bg-white border-b px-4 md:px-6 py-3 flex items-center justify-between shrink-0">
-          <h1 className="font-bold text-gray-800 text-base md:text-lg">
-            {icon} {label}
+          <h1 className="font-bold text-gray-800 text-base md:text-lg inline-flex items-center gap-2">
+            <Icon name={icon} className="text-teal-600" />
+            {label}
           </h1>
           <div className="flex items-center gap-2 text-xs text-gray-400 font-mono">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
