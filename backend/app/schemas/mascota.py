@@ -32,16 +32,17 @@ class MascotaOut(BaseModel):
     tipo: str
     nombre: str
     especie: str
-    raza: str | None
-    color: str | None
-    sexo: str
-    edad: str | None
-    zona: str | None
-    lat: float | None
-    lng: float | None
-    descripcion: str | None
-    contacto: str | None
-    foto_url: str | None
-    estado: str
-    fecha: date
+    raza: str | None = None
+    color: str | None = None
+    sexo: str = "Desconocido"
+    edad: str | None = None
+    zona: str | None = None
+    lat: float | None = None
+    lng: float | None = None
+    descripcion: str | None = None
+    contacto: str | None = None
+    foto_url: str | None = None
+    image_hash: str | None = None
+    estado: str = "activa"
+    fecha: date | None = None
     match: float = 0.0
