@@ -21,8 +21,8 @@ export function IaPage() {
       <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 text-sm text-purple-800">
         <p className="font-bold mb-1">🤖 Motor IA — imagehash (Pillow)</p>
         <p>
-          Compara imágenes de mascotas perdidas vs encontradas usando perceptual hash. En producción:
-          CNN/CLIP embeddings para mayor precisión.
+          Compara imágenes de mascotas perdidas vs encontradas usando perceptual hash. En
+          producción: CNN/CLIP embeddings para mayor precisión.
         </p>
       </div>
 
@@ -80,7 +80,10 @@ export function IaPage() {
               <span className="font-bold">{f.score}%</span>
             </div>
             <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-2 rounded-full" style={{ width: `${f.score}%`, background: f.color }} />
+              <div
+                className="h-2 rounded-full"
+                style={{ width: `${f.score}%`, background: f.color }}
+              />
             </div>
           </div>
         ))}

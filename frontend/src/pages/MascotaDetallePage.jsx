@@ -84,14 +84,18 @@ export function MascotaDetallePage() {
             <div className="flex gap-2 flex-wrap">
               <span
                 className={`text-xs px-3 py-1 rounded-full font-medium ${
-                  pet.tipo === 'perdida' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700'
+                  pet.tipo === 'perdida'
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-orange-100 text-orange-700'
                 }`}
               >
                 {pet.tipo === 'perdida' ? 'Perdida' : 'Encontrada'}
               </span>
               <span
                 className={`text-xs px-3 py-1 rounded-full font-medium ${
-                  pet.estado === 'recuperada' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                  pet.estado === 'recuperada'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-blue-100 text-blue-700'
                 }`}
               >
                 {pet.estado}

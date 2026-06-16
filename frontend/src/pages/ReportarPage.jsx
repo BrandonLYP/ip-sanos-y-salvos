@@ -77,7 +77,10 @@ export function ReportarPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border p-6 space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border p-6 space-y-4"
+    >
       <div
         className="px-4 py-3 rounded-lg -mx-6 -mt-6 mb-2 text-white font-bold"
         style={{ background: color }}
@@ -184,7 +187,12 @@ export function ReportarPage() {
           <label className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 text-sm cursor-pointer hover:bg-gray-50 block">
             📷 Haz clic para subir una foto
             <span className="block text-xs mt-1">JPG, PNG, WEBP o GIF · máximo {MAX_MB} MB</span>
-            <input type="file" accept={ACCEPTED.join(',')} onChange={onFileChange} className="hidden" />
+            <input
+              type="file"
+              accept={ACCEPTED.join(',')}
+              onChange={onFileChange}
+              className="hidden"
+            />
           </label>
         )}
       </Field>

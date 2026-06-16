@@ -1,4 +1,14 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { ErrorMessage } from '../components/ErrorMessage';
@@ -17,8 +27,18 @@ export function DashboardPage() {
   const matchCount = (pets || []).filter((p) => p.match > 70).length;
 
   const cards = [
-    { label: 'Mascotas perdidas', val: activas.filter((p) => p.tipo === 'perdida').length, icon: '🔍', color: 'bg-red-500' },
-    { label: 'Mascotas encontradas', val: activas.filter((p) => p.tipo === 'encontrada').length, icon: '🐾', color: 'bg-orange-500' },
+    {
+      label: 'Mascotas perdidas',
+      val: activas.filter((p) => p.tipo === 'perdida').length,
+      icon: '🔍',
+      color: 'bg-red-500',
+    },
+    {
+      label: 'Mascotas encontradas',
+      val: activas.filter((p) => p.tipo === 'encontrada').length,
+      icon: '🐾',
+      color: 'bg-orange-500',
+    },
     { label: 'Recuperadas', val: recuperadas, icon: '✅', color: 'bg-green-500' },
     { label: 'Coincidencias IA', val: matchCount, icon: '🤖', color: 'bg-purple-500' },
   ];
@@ -28,7 +48,9 @@ export function DashboardPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {cards.map((s) => (
           <div key={s.label} className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className={`w-10 h-10 ${s.color} rounded-full flex items-center justify-center text-xl mb-2`}>
+            <div
+              className={`w-10 h-10 ${s.color} rounded-full flex items-center justify-center text-xl mb-2`}
+            >
               {s.icon}
             </div>
             <p className="text-2xl font-bold text-gray-800">{s.val}</p>
@@ -41,8 +63,8 @@ export function DashboardPage() {
         <div className="bg-gradient-to-r from-teal-50 to-blue-50 border border-teal-100 rounded-xl p-4 text-sm">
           <p className="text-gray-700">
             <strong>Tasa de recuperación:</strong> {resumen.tasa_recuperacion}% ·{' '}
-            <strong>Total reportadas:</strong> {resumen.total} ·{' '}
-            <strong>Activas:</strong> {resumen.activas}
+            <strong>Total reportadas:</strong> {resumen.total} · <strong>Activas:</strong>{' '}
+            {resumen.activas}
           </p>
         </div>
       )}
@@ -57,8 +79,18 @@ export function DashboardPage() {
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip />
                 <Bar dataKey="perdidas" fill="#F44336" name="Perdidas" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="encontradas" fill="#FF9800" name="Encontradas" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="recuperadas" fill="#4CAF50" name="Recuperadas" radius={[3, 3, 0, 0]} />
+                <Bar
+                  dataKey="encontradas"
+                  fill="#FF9800"
+                  name="Encontradas"
+                  radius={[3, 3, 0, 0]}
+                />
+                <Bar
+                  dataKey="recuperadas"
+                  fill="#4CAF50"
+                  name="Recuperadas"
+                  radius={[3, 3, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -69,7 +101,14 @@ export function DashboardPage() {
             <>
               <ResponsiveContainer width="100%" height={160}>
                 <PieChart>
-                  <Pie data={statsEsp} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value">
+                  <Pie
+                    data={statsEsp}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={45}
+                    outerRadius={70}
+                    dataKey="value"
+                  >
                     {statsEsp.map((e, i) => (
                       <Cell key={i} fill={e.color} />
                     ))}
