@@ -4,7 +4,7 @@ import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { getMediaUrl } from '../services/api';
 
 export function MascotaDetallePage() {
   const { id } = useParams();
@@ -15,6 +15,8 @@ export function MascotaDetallePage() {
   const { data: avistamientos, reload: reloadAvi } = useFetch(`/mascotas/${id}/avistamientos/`);
   const [aviNota, setAviNota] = useState('');
   const [aviLoading, setAviLoading] = useState(false);
+  const [lightbox, setLightbox] = useState(null);
+  const [zoomed, setZoomed] = useState(false);
 
   if (loading) return <Spinner />;
   if (error) return <ErrorMessage error={error} onRetry={reload} />;
@@ -56,9 +58,13 @@ export function MascotaDetallePage() {
       <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
         {pet.foto_url ? (
           <img
-            src={pet.foto_url}
+            src={getMediaUrl(pet.foto_url)}
             alt={pet.nombre}
-            className="w-full h-64 object-cover bg-gray-100"
+            className="w-full h-64 object-cover bg-gray-100 cursor-zoom-in"
+            onClick={() => {
+              setLightbox(getMediaUrl(pet.foto_url));
+              setZoomed(false);
+            }}
             onError={(e) => (e.currentTarget.style.display = 'none')}
           />
         ) : (
@@ -78,14 +84,18 @@ export function MascotaDetallePage() {
             <div className="flex gap-2 flex-wrap">
               <span
                 className={`text-xs px-3 py-1 rounded-full font-medium ${
-                  pet.tipo === 'perdida' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700'
+                  pet.tipo === 'perdida'
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-orange-100 text-orange-700'
                 }`}
               >
                 {pet.tipo === 'perdida' ? 'Perdida' : 'Encontrada'}
               </span>
               <span
                 className={`text-xs px-3 py-1 rounded-full font-medium ${
-                  pet.estado === 'recuperada' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                  pet.estado === 'recuperada'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-blue-100 text-blue-700'
                 }`}
               >
                 {pet.estado}
@@ -180,6 +190,39 @@ export function MascotaDetallePage() {
           ))
         )}
       </div>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => {
+            setLightbox(null);
+            setZoomed(false);
+          }}
+        >
+          <img
+            src={lightbox}
+            alt="foto ampliada"
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoomed((z) => !z);
+            }}
+            className={`max-w-full max-h-full object-contain rounded shadow-2xl transition-transform duration-200 ${
+              zoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'
+            }`}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setLightbox(null);
+              setZoomed(false);
+            }}
+            className="absolute top-4 right-4 text-white text-3xl bg-black/40 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center"
+            aria-label="Cerrar"
+          >
+            &times;
+          </button>
+        </div>
+      )}
     </div>
   );
 }

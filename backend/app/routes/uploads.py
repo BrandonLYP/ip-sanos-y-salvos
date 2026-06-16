@@ -33,4 +33,4 @@ async def upload_imagen(file: UploadFile = File(...)) -> dict:
     dest = upload_dir / name
     dest.write_bytes(contents)
 
-    return {"filename": name, "url": f"/uploads/{name}"}
+    return {"filename": name, "url": f"/media/{name}"}

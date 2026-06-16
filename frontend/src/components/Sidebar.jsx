@@ -38,7 +38,9 @@ export function Sidebar() {
             end={n.to === '/'}
             className={({ isActive }) =>
               `w-full flex items-center gap-3 px-2 md:px-3 py-2.5 rounded-lg text-sm transition ${
-                isActive ? 'bg-teal-600 text-white font-medium' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                isActive
+                  ? 'bg-teal-600 text-white font-medium'
+                  : 'text-gray-400 hover:bg-gray-800 hover:text-white'
               }`
             }
           >
@@ -50,7 +52,9 @@ export function Sidebar() {
 
       <div className="p-2 md:p-3 border-t border-gray-700 space-y-2">
         {user && (
-          <div className="hidden md:block text-xs text-gray-400 px-2 truncate">👤 {user.nombre}</div>
+          <div className="hidden md:block text-xs text-gray-400 px-2 truncate">
+            👤 {user.nombre}
+          </div>
         )}
         <button
           onClick={handleLogout}

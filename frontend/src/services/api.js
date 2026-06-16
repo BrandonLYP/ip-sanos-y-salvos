@@ -29,4 +29,13 @@ api.interceptors.response.use(
   }
 );
 
+export function getMediaUrl(path) {
+  if (!path) return null;
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+    return path;
+  }
+  return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`;
+}
+
+export { API_URL };
 export default api;

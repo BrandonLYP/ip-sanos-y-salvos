@@ -1,6 +1,5 @@
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
-import { ErrorMessage } from '../components/ErrorMessage';
 
 export function AlertasPage() {
   const { data: mascotas } = useFetch('/mascotas/');
@@ -53,8 +52,8 @@ export function AlertasPage() {
             a.tipo === 'match'
               ? 'border-l-4 border-yellow-400'
               : a.tipo === 'exito'
-              ? 'border-l-4 border-green-400'
-              : 'border-l-4 border-blue-400'
+                ? 'border-l-4 border-green-400'
+                : 'border-l-4 border-blue-400'
           }`}
         >
           <div className="flex-1">
@@ -66,8 +65,8 @@ export function AlertasPage() {
               a.tipo === 'match'
                 ? 'bg-yellow-100 text-yellow-700'
                 : a.tipo === 'exito'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-blue-100 text-blue-700'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-blue-100 text-blue-700'
             }`}
           >
             {a.tipo}

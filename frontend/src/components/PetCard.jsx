@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../services/api';
 
-export function PetCard({ pet, onSelect }) {
+export function PetCard({ pet, onSelect: _onSelect }) {
   const [imgError, setImgError] = useState(false);
-  const badgeColor = pet.tipo === 'perdida' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700';
-  const estadoColor = pet.estado === 'recuperada' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700';
+  const badgeColor =
+    pet.tipo === 'perdida' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700';
+  const estadoColor =
+    pet.estado === 'recuperada' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700';
 
-  const photoSrc = pet.foto_url && !imgError ? pet.foto_url : null;
+  const photoSrc = pet.foto_url && !imgError ? getMediaUrl(pet.foto_url) : null;
 
   return (
     <Link

@@ -63,7 +63,11 @@ export function MapaPage() {
             </Marker>
           ))}
           {markers.length === 0 && (
-            <CircleMarker center={SANTIAGO} radius={200} pathOptions={{ color: '#90CAF9', fillOpacity: 0.2 }}>
+            <CircleMarker
+              center={SANTIAGO}
+              radius={200}
+              pathOptions={{ color: '#90CAF9', fillOpacity: 0.2 }}
+            >
               <Popup>No hay mascotas geolocalizadas aún</Popup>
             </CircleMarker>
           )}

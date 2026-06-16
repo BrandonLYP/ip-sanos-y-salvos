@@ -136,19 +136,24 @@ frontend/
 
 ## 4. Venv y comandos importantes
 
-**Python venv (en `sanosproject/venv/`, REUTILIZARLO, no crear uno nuevo):**
+**Python venv (en `backend/venv/`, MUDADO en esta sesión — antes vivía en `sanosproject/venv/`):**
 ```powershell
 # Activar:
-& "D:\DUOC\EVALUACION DE PROYECTOS DE SOFTWARE\3ERA UNIDAD\Sanos y salvos MVP\SanosYSalvos_fullstack\sanosproject\venv\Scripts\Activate.ps1"
+& "D:\...\ip-sanos-y-salvos\backend\venv\Scripts\Activate.ps1"
 
 # Si bloquea scripts:
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 **Levantar backend (CRÍTICO — usar el python del venv, NO el del sistema):**
 ```powershell
-& "D:\...\sanosproject\venv\Scripts\python.exe" -m uvicorn app.main:app --reload --port 8000
+Set-Location "D:\...\ip-sanos-y-salvos\backend"
+& "D:\...\ip-sanos-y-salvos\backend\venv\Scripts\python.exe" -m uvicorn app.main:app --reload --port 8000
 ```
+
+**`sanosproject/venv/` ya NO se usa.** El venv viejo se puede borrar para liberar espacio
+(eliminación segura: `Remove-Item -Recurse "D:\...\sanosproject\venv"`). NO hacerlo hasta confirmar
+que el venv nuevo funciona end-to-end (login + upload + mapa).
 
 **Frontend:**
 ```powershell
