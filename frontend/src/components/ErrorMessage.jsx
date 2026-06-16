@@ -1,8 +1,10 @@
+import { Icon } from './Icon';
+
 export function ErrorMessage({ error, onRetry }) {
   const message = error?.response?.data?.detail || error?.message || 'Error desconocido';
   return (
     <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700 flex items-center gap-3">
-      <span>⚠️</span>
+      <Icon name="exclamation-triangle-fill" className="text-lg" />
       <div className="flex-1">
         <p className="font-bold">No se pudo completar la operación</p>
         <p className="text-xs mt-0.5">{message}</p>

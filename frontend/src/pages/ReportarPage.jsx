@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
+import { Icon } from '../components/Icon';
 
 const MAX_MB = 5;
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -82,10 +83,11 @@ export function ReportarPage() {
       className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border p-6 space-y-4"
     >
       <div
-        className="px-4 py-3 rounded-lg -mx-6 -mt-6 mb-2 text-white font-bold"
+        className="px-4 py-3 rounded-lg -mx-6 -mt-6 mb-2 text-white font-bold inline-flex items-center gap-2 w-full"
         style={{ background: color }}
       >
-        {isPerdida ? '🔍 Reportar mascota perdida' : '🐾 Reportar mascota encontrada'}
+        <Icon name={isPerdida ? 'search' : 'heart-fill'} />
+        {isPerdida ? 'Reportar mascota perdida' : 'Reportar mascota encontrada'}
       </div>
 
       {isPerdida && (
@@ -185,7 +187,8 @@ export function ReportarPage() {
           </div>
         ) : (
           <label className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 text-sm cursor-pointer hover:bg-gray-50 block">
-            📷 Haz clic para subir una foto
+            <Icon name="camera-fill" className="text-3xl text-gray-400 mb-1" />
+            <span className="block">Haz clic para subir una foto</span>
             <span className="block text-xs mt-1">JPG, PNG, WEBP o GIF · máximo {MAX_MB} MB</span>
             <input
               type="file"

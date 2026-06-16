@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Logo } from '../components/Logo';
 
 export function LoginPage() {
   const { login, loading } = useAuth();
@@ -26,7 +27,7 @@ export function LoginPage() {
         className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-4"
       >
         <div className="text-center">
-          <div className="text-5xl mb-2">🐾</div>
+          <Logo className="w-16 h-16 rounded-2xl mx-auto mb-2" />
           <h1 className="text-2xl font-bold text-gray-800">Sanos y Salvos</h1>
           <p className="text-sm text-gray-500">Inicia sesión para continuar</p>
         </div>
