@@ -17,6 +17,7 @@ class Settings:
         self.max_upload_mb: int = int(os.getenv("MAX_UPLOAD_MB", "5"))
         self.api_title: str = os.getenv("API_TITLE", "Sanos y Salvos API")
         self.api_version: str = os.getenv("API_VERSION", "0.1.0")
+        self.port: int = int(os.getenv("PORT", "8000"))
 
     @property
     def cors_origins(self) -> list[str]:

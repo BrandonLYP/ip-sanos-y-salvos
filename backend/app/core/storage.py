@@ -1,18 +1,31 @@
 """Persistencia simple en JSON para el MVP.
 
-Cada tabla se guarda como una lista de dicts en data/db.json. Se puede migrar
-a SQLAlchemy/PostgreSQL en una iteración posterior reemplazando este módulo.
+Cada tabla se guarda como una lista de dicts. La ruta se lee de
+DATABASE_URL (formato json://<ruta>; //<ruta> = absoluto,
+./<ruta> o <ruta> = relativo al cwd). Default: data/db.json.
+Migrar a SQLAlchemy/PostgreSQL reemplazando este módulo.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import threading
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
-DATA_FILE = Path("data/db.json")
+
+def _resolve_data_file() -> Path:
+    url = os.getenv("DATABASE_URL", "json://data/db.json")
+    if url.startswith("json://"):
+        path = url[len("json://") :]
+    else:
+        path = url
+    return Path(path)
+
+
+DATA_FILE = _resolve_data_file()
 _lock = threading.Lock()
 
 

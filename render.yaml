@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: sanos-y-salvos-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn app.main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: json:///var/data/db.json
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: https://sanos-y-salvos.vercel.app
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 1440
+      - key: API_TITLE
+        value: Sanos y Salvos API
+      - key: API_VERSION
+        value: 0.1.0
+      - key: MAX_UPLOAD_MB
+        value: 5
+    disk:
+      name: sanos-y-salvos-data
+      mountPath: /var/data
+      sizeGB: 1
