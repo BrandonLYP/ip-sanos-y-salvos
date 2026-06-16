@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Icon } from './Icon';
+import { Logo } from './Logo';
 
 const NAV = [
   { to: '/', icon: 'bar-chart-fill', label: 'Dashboard' },
@@ -23,7 +24,7 @@ export function Sidebar() {
     <div className="w-16 md:w-56 bg-gray-900 flex flex-col shrink-0">
       <div className="p-3 md:p-4 border-b border-gray-700">
         <div className="flex items-center gap-2">
-          <Icon name="heart-fill" className="text-2xl text-teal-400" />
+          <Logo className="w-8 h-8 rounded-md" />
           <div className="hidden md:block">
             <p className="text-white font-bold text-sm leading-tight">Sanos y Salvos</p>
             <p className="text-gray-400 text-xs">MVP v0.1</p>
