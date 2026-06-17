@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 import { Icon } from '../components/Icon';
+import { LocationPicker } from '../components/LocationPicker';
 
 const MAX_MB = 5;
 const ACCEPTED = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -22,6 +23,7 @@ export function ReportarPage() {
     descripcion: '',
     contacto: '',
   });
+  const [coords, setCoords] = useState({ lat: null, lng: null });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -68,7 +70,13 @@ export function ReportarPage() {
         foto_url = data.url;
       }
 
-      await api.post('/mascotas/', { ...form, tipo, foto_url });
+      await api.post('/mascotas/', {
+        ...form,
+        tipo,
+        foto_url,
+        lat: coords.lat,
+        lng: coords.lng,
+      });
       navigate('/mascotas');
     } catch (err) {
       setError(err.response?.data?.detail || err.message);
@@ -151,6 +159,14 @@ export function ReportarPage() {
           placeholder="Ej: Providencia"
           value={form.zona}
           onChange={(e) => set('zona', e.target.value)}
+        />
+      </Field>
+
+      <Field label="Ubicacion en el mapa (opcional)">
+        <LocationPicker
+          lat={coords.lat}
+          lng={coords.lng}
+          onChange={(la, ln) => setCoords({ lat: la, lng: ln })}
         />
       </Field>
 

@@ -3,10 +3,27 @@ import { Spinner } from '../components/Spinner';
 import { Icon } from '../components/Icon';
 
 export function AlertasPage() {
-  const { data: mascotas } = useFetch('/mascotas/');
-  const { data: matches } = useFetch('/mascotas/matches');
+  const {
+    data: mascotas,
+    loading: loadingM,
+    reload: reloadMascotas,
+  } = useFetch('/mascotas/', {
+    refetchOnFocus: true,
+  });
+  const {
+    data: matches,
+    loading: loadingMt,
+    reload: reloadMatches,
+  } = useFetch('/mascotas/matches', {
+    refetchOnFocus: true,
+  });
 
-  if (!mascotas || !matches) return <Spinner />;
+  if (loadingM || loadingMt || !mascotas || !matches) return <Spinner />;
+
+  const handleRefresh = () => {
+    reloadMascotas();
+    reloadMatches();
+  };
 
   const recientes = [...mascotas]
     .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
@@ -48,9 +65,19 @@ export function AlertasPage() {
 
   return (
     <div className="space-y-3">
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-700 inline-flex items-center gap-2 w-full">
-        <Icon name="bell-fill" />
-        Alertas generadas en tiempo real desde la base de datos
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-700 flex items-center justify-between gap-2 w-full">
+        <span className="inline-flex items-center gap-2">
+          <Icon name="bell-fill" />
+          Alertas generadas en tiempo real desde la base de datos
+        </span>
+        <button
+          type="button"
+          onClick={handleRefresh}
+          className="text-blue-700 hover:text-blue-900 hover:bg-blue-100 rounded-lg px-2 py-1 text-xs font-medium inline-flex items-center gap-1"
+        >
+          <Icon name="arrow-clockwise" />
+          Actualizar
+        </button>
       </div>
       {all.map((a) => (
         <div
