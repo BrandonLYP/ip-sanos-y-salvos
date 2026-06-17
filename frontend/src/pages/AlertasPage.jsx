@@ -37,7 +37,7 @@ export function AlertasPage() {
 
   const recientes = [...mascotas]
     .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
-    .slice(0, 5);
+    .slice(0, 20);
 
   const nuevas = recientes.map((p) => ({
     id: `nueva-${p.id}`,
