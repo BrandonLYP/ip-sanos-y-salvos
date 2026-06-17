@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { Icon } from '../components/Icon';
+import { markAlertasSeen } from '../hooks/useUnreadAlerts';
 
 export function AlertasPage() {
+  const location = useLocation();
   const {
     data: mascotas,
     loading: loadingM,
@@ -18,6 +22,12 @@ export function AlertasPage() {
     refetchOnFocus: true,
   });
 
+  useEffect(() => {
+    reloadMascotas();
+    reloadMatches();
+    markAlertasSeen();
+  }, [location.pathname, reloadMascotas, reloadMatches]);
+
   if (loadingM || loadingMt || !mascotas || !matches) return <Spinner />;
 
   const handleRefresh = () => {
@@ -27,7 +37,7 @@ export function AlertasPage() {
 
   const recientes = [...mascotas]
     .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
-    .slice(0, 5);
+    .slice(0, 20);
 
   const nuevas = recientes.map((p) => ({
     id: `nueva-${p.id}`,
