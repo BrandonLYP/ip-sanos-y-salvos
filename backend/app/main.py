@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.core import get_settings
-from app.core.storage import DATA_FILE
+from app.core.storage import DATA_FILE, get_table
 from app.routes import (
     auth_router,
     avistamientos_router,
@@ -25,7 +25,25 @@ async def lifespan(app: FastAPI):
     if not DATA_FILE.exists():
         DATA_FILE.write_text('{"usuarios": [], "mascotas": [], "avistamientos": []}', encoding="utf-8")
     Path(settings.upload_dir).mkdir(parents=True, exist_ok=True)
+    _maybe_seed()
     yield
+
+
+def _maybe_seed() -> None:
+    """Sembrar datos demo si la BD esta vacia (deploy fresco en Render)."""
+    if get_table("usuarios"):
+        return
+    try:
+        from seed import run
+
+        run()
+    except Exception as exc:  # noqa: BLE001
+        # No bloquear el arranque del server si el seed falla.
+        print(f"[startup] seed omitido: {exc}")
+
+
+settings = get_settings()
+app = FastAPI(title=settings.api_title, version=settings.api_version, lifespan=lifespan)
 
 
 settings = get_settings()

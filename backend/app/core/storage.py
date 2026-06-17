@@ -52,7 +52,9 @@ def _deserialize(value: Any) -> Any:
 def read_all() -> dict[str, list[dict]]:
     _ensure_file()
     with _lock:
-        return json.loads(DATA_FILE.read_text(encoding="utf-8"))
+        # utf-8-sig strips a leading BOM if the file was edited externally
+        # (Notepad, PowerShell Out-File, etc.).
+        return json.loads(DATA_FILE.read_text(encoding="utf-8-sig"))
 
 
 def write_all(data: dict[str, list[dict]]) -> None:
