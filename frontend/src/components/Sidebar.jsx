@@ -2,6 +2,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Icon } from './Icon';
 import { Logo } from './Logo';
+import { useUnreadAlerts } from '../hooks/useUnreadAlerts';
 
 const NAV = [
   { to: '/', icon: 'bar-chart-fill', label: 'Dashboard' },
@@ -14,6 +15,7 @@ const NAV = [
 export function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const unread = useUnreadAlerts();
 
   const handleLogout = () => {
     logout();
@@ -39,7 +41,7 @@ export function Sidebar() {
             to={n.to}
             end={n.to === '/'}
             className={({ isActive }) =>
-              `w-full flex items-center gap-3 px-2 md:px-3 py-2.5 rounded-lg text-sm transition ${
+              `relative w-full flex items-center gap-3 px-2 md:px-3 py-2.5 rounded-lg text-sm transition ${
                 isActive
                   ? 'bg-teal-600 text-white font-medium'
                   : 'text-gray-400 hover:bg-gray-800 hover:text-white'
@@ -48,6 +50,11 @@ export function Sidebar() {
           >
             <Icon name={n.icon} className="text-base" />
             <span className="hidden md:block truncate">{n.label}</span>
+            {n.to === '/alertas' && unread > 0 && (
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 leading-none shadow">
+                {unread > 99 ? '99+' : unread}
+              </span>
+            )}
           </NavLink>
         ))}
       </nav>
