@@ -78,4 +78,9 @@ def root() -> dict:
 
 @app.get("/health")
 def health() -> dict:
+    # Trivial on purpose: this endpoint is hit by Render's health
+    # check every ~30s. It must NOT touch the filesystem, the DB,
+    # or any external service, or it becomes a performance problem
+    # and a single point of failure. If you ever need a deeper
+    # check, add a separate /health/deep endpoint instead.
     return {"status": "ok"}
