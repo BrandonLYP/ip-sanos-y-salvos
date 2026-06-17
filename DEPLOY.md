@@ -4,38 +4,46 @@ Arquitectura final:
 - **Frontend** → Vercel (build estático de Create React App).
 - **Backend** → Render (Python + Gunicorn + disco persistente).
 
-## 1. Backend en Render (free tier con disco persistente)
+## 1. Backend en Render (free tier, sin disco persistente)
+
+> **Estado actual: Plan B activo.** Render no soporta disco persistente
+> en el plan free (`disks are not supported for free tier services`).
+> `render.yaml` está configurado con rutas relativas. **Los datos y
+> fotos se borran en cada redeploy o cuando Render reinicia el
+> contenedor.** Es suficiente para una demo del MVP, no para
+> operación real con datos persistentes.
 
 ### 1.1. Preparación ya incluida en el repo
 - `backend/Procfile`: comando de arranque con Gunicorn + UvicornWorker.
 - `backend/runtime.txt`: fija Python 3.11.9.
 - `backend/requirements.txt`: incluye `gunicorn`.
-- `render.yaml`: IaC con la definición completa del servicio.
-- `backend/app/core/storage.py`: ahora resuelve la ruta de la BD desde la env var `DATABASE_URL`. Formato `json://<ruta>`.
+- `render.yaml`: IaC con la definición completa del servicio (sin disco).
+- `backend/app/core/storage.py`: resuelve la ruta de la BD desde la env var `DATABASE_URL`. Formato `json://<ruta>`.
 - `backend/app/core/__init__.py`: añade `PORT` a la configuración.
 
 ### 1.2. Pasos en Render
 
 1. Entra a <https://dashboard.render.com> y conecta tu cuenta de GitHub.
 2. Click **New + → Blueprint**.
-3. Apunta al repo `BrandonLYP/ip-sanos-y-salvos`.
+3. Apunta al repo `BrandonLYP/ip-sanos-y-salvos`, branch `main`.
 4. Render detecta `render.yaml` automáticamente y propone crear:
-   - Servicio web: `sanos-y-salvos-api`
-   - Disco persistente: `sanos-y-salvos-data` (1 GB en `/var/data`)
+   - Servicio web: `sanos-y-salvos-api` (free, sin disco)
 5. Aplica. Render hace el primer deploy (~3 min).
 6. Cuando termine, copia la URL pública (ej. `https://sanos-y-salvos-api.onrender.com`).
 
 ### 1.3. Variables de entorno (ya están en render.yaml)
-- `DATABASE_URL=json:///var/data/db.json` → BD en el disco persistente.
-- `UPLOAD_DIR=/var/data/uploads` → fotos en el disco persistente.
-- `SECRET_KEY` → generado por Render.
+- `DATABASE_URL=json://data/db.json` → BD en el contenedor (efímero).
+- `UPLOAD_DIR=media/uploads` → fotos en el contenedor (efímero).
+- `SECRET_KEY` → generado por Render (sí persiste en env vars).
 - `ALLOWED_ORIGINS=https://sanos-y-salvos.vercel.app` → ajusta cuando tengas la URL real de Vercel.
 
-### 1.4. Si el disco persistente no está disponible en tu plan
-Cae al **Plan B**: borra la sección `disk:` de `render.yaml` y cambia las env vars a rutas relativas:
-- `DATABASE_URL=json://data/db.json`
-- `UPLOAD_DIR=media/uploads`
-La app sigue funcionando, pero **los datos y fotos se borran en cada redeploy** (free tier duerme el servicio tras 15 min de inactividad, eso no borra datos; los borra un redeploy manual o un cambio de plan).
+### 1.4. Sobre la persistencia
+- Free tier duerme el servicio tras 15 min sin tráfico, **no borra datos** al despertar.
+- Sí se borran en un **redeploy** (manual o automático al hacer push a `main`).
+- Para persistencia real, opciones:
+  - Plan Starter de Render ($7/mes) con disco persistente.
+  - Railway.app ($5 gratis al mes, disco incluido).
+  - Migrar storage a Postgres (gratis en Render por 90 días) y uploads a S3/Cloudinary.
 
 ### 1.5. Verificar
 ```bash
@@ -90,18 +98,25 @@ Y haz push. Render redepleará automáticamente.
 | Servicio | Plan | Costo |
 |---|---|---|
 | Vercel | Free (Hobby) | $0 — 100 GB bandwidth, builds ilimitados |
-| Render | Free + disco persistente (beta) | $0 — el disco persistente en free está en beta; si no funciona, plan B sin disco |
+| Render | Free (sin disco persistente) | $0 — el servicio duerme tras 15 min sin tráfico; los datos son efímeros |
 | **Total** | | **$0** |
 
-Si Render te cobra por el disco persistente (cuando salga de beta), avísame y migramos a Railway o a Postgres/Cloudinary.
+Si necesitas persistencia real para producción, sube a Render Starter ($7/mes) con disco, o migramos a Railway ($5 gratis/mes con disco incluido).
 
 ---
 
 ## 5. Smoke test post-deploy
 
 1. Abrir `https://sanos-y-salvos.vercel.app`.
-2. Login con `demo@sanosysalvos.cl` / `demo1234`.
+2. Login con `demo@sanosysalvos.cl` / `demo1234` (si la BD se inicializó con `seed.py` — ver abajo).
 3. Reportar una mascota con foto.
 4. Verificar que la foto aparece en el detalle y en el mapa.
 5. Marcar como recuperada.
-6. Verificar que el cambio persiste tras refrescar (si está en el disco persistente).
+6. Refrescar: los datos deben seguir ahí (mientras no haya redeploy).
+
+### 5.1. Sembrar datos iniciales
+En el dashboard de Render → tu servicio → **Shell** (o `render shell` desde CLI), corre:
+```bash
+python -c "from app.core.storage import write_all; write_all({'usuarios': [], 'mascotas': [], 'avistamientos': []})"
+```
+Después, si tienes un script `seed.py` con datos demo, ejecútalo. La BD efímera arranca vacía en cada primer deploy.

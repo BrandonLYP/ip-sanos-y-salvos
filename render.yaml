@@ -9,9 +9,9 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
-        value: json:///var/data/db.json
+        value: json://data/db.json
       - key: UPLOAD_DIR
-        value: /var/data/uploads
+        value: media/uploads
       - key: SECRET_KEY
         generateValue: true
       - key: ALLOWED_ORIGINS
@@ -26,7 +26,3 @@ services:
         value: 0.1.0
       - key: MAX_UPLOAD_MB
         value: 5
-    disk:
-      name: sanos-y-salvos-data
-      mountPath: /var/data
-      sizeGB: 1
