@@ -18,18 +18,37 @@
 ## 2. Estructura de ramas Git (CRÍTICO)
 
 ```
-main                              ← protegido, sólo versiones estables
+main                              ← protegido, sólo versiones estables (producción)
 develop                           ← integración
-feat/fase-1-backend-auth-bd       ← MERGEADA a develop
-feat/fase-2-uploads-ia            ← ACTUAL (aquí estás, sin mergear aún)
-feat/fase-3-deploy-vercel         ← SIGUIENTE
+feat/*                            ← features / fixes / chores
+docs/*                            ← cambios de documentación
+chore/*                           ← tareas operativas (CI, deps, configs)
 ```
 
 **Reglas de trabajo:**
 
-- **Siempre** trabajar en `feat/fase-N-*`. NUNCA commitear directo a `main` o `develop`.
-- Cada fase va en su propia rama y se mergea a `develop` con `git merge --no-ff feat/fase-N-*`.
-- Commits en inglés, mensajes descriptivos con prefijo (`feat:`, `fix:`, `chore:`, `docs:`).
+- **Toda participación en el proyecto** (feature, fix, chore, docs, refactor) debe
+  hacerse en una **rama dedicada** con un nombre coherente al cambio:
+  - `feat/<slug>` para funcionalidad nueva.
+  - `fix/<slug>` para correcciones.
+  - `chore/<slug>` para tareas operativas (deps, configs, scripts).
+  - `docs/<slug>` para cambios de documentación únicamente.
+  - `refactor/<slug>` para refactors sin cambio funcional.
+  - Si la rama no existe, se crea desde `main` con `git checkout -b <tipo>/<slug>`.
+- **Las ramas NO se borran.** Permanecen en el repo (local y remoto) como
+  historial del trabajo realizado. Esto incluye las ramas ya mergeadas:
+  se mergean a `main` con `--no-ff` y se dejan donde están. **No** ejecutar
+  `git branch -D` ni `git push origin :<rama>` sobre ramas mergeadas.
+- **Nunca commitear ni pushear directo a `main` o `develop`.** El flujo
+  correcto es: rama de trabajo → push → Pull Request hacia `main`.
+- **Brandon revisa cada PR antes de mergear a `main`.** El agente (opencode)
+  abre el PR y espera la aprobación explícita de Brandon. No mergear
+  unilateralmente commits a `main`, ni siquiera con `--no-ff`.
+- Cada cambio entra en su propia rama con commits chicos. Commits en inglés,
+  mensajes descriptivos con prefijo (`feat:`, `fix:`, `chore:`, `docs:`,
+  `refactor:`).
+- Merge a `main` con `git merge --no-ff <rama>` para preservar el historial
+  de la rama.
 - **El path del repo en disco:** `D:\DUOC\EVALUACION DE PROYECTOS DE SOFTWARE\3ERA UNIDAD\Sanos y salvos MVP\SanosYSalvos_fullstack\ip-sanos-y-salvos\`
 - **Hay una carpeta hermana llamada `sanosproject\`** que es la versión **vieja** anterior al repo. NO trabajar ahí. Siempre `Set-Location` al path de `ip-sanos-y-salvos` antes de cualquier git/server.
 
