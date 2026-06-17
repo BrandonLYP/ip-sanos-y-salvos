@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useFetch } from '../hooks/useFetch';
 import { Spinner } from '../components/Spinner';
 import { Icon } from '../components/Icon';
+import { markAlertasSeen } from '../hooks/useUnreadAlerts';
 
 export function AlertasPage() {
+  const location = useLocation();
   const {
     data: mascotas,
     loading: loadingM,
@@ -17,6 +21,12 @@ export function AlertasPage() {
   } = useFetch('/mascotas/matches', {
     refetchOnFocus: true,
   });
+
+  useEffect(() => {
+    reloadMascotas();
+    reloadMatches();
+    markAlertasSeen();
+  }, [location.pathname, reloadMascotas, reloadMatches]);
 
   if (loadingM || loadingMt || !mascotas || !matches) return <Spinner />;
 
