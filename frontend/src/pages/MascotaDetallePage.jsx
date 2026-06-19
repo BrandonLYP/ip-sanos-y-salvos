@@ -133,6 +133,12 @@ export function MascotaDetallePage() {
               <Icon name="check-circle-fill" /> Marcar como recuperada
             </button>
           )}
+
+          {!isOwner && user && pet.estado === 'activa' && (
+            <p className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-center">
+              Solo el dueño del reporte puede marcar esta mascota como recuperada.
+            </p>
+          )}
         </div>
       </div>
 
