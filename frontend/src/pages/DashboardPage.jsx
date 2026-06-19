@@ -16,6 +16,7 @@ import { Icon } from '../components/Icon';
 
 export function DashboardPage() {
   const { data: pets, loading, error, reload } = useFetch('/mascotas/');
+  const { data: matches } = useFetch('/mascotas/matches');
   const { data: statsMes } = useFetch('/stats/mensual');
   const { data: statsEsp } = useFetch('/stats/especies');
   const { data: resumen } = useFetch('/stats/resumen');
@@ -25,7 +26,10 @@ export function DashboardPage() {
 
   const activas = (pets || []).filter((p) => p.estado === 'activa');
   const recuperadas = (pets || []).filter((p) => p.estado === 'recuperada').length;
-  const matchCount = (pets || []).filter((p) => p.match > 70).length;
+  // /mascotas/matches is the only endpoint that returns a populated
+  // match score, so the "Coincidencias IA" KPI has to count from
+  // there, not from /mascotas/ (where match is always 0.0).
+  const matchCount = (matches || []).length;
 
   const cards = [
     {
@@ -97,10 +101,13 @@ export function DashboardPage() {
           )}
         </div>
         <div className="bg-white rounded-xl p-4 shadow-sm border">
-          <p className="font-bold text-gray-700 mb-1 text-sm">Por especie</p>
+          <p className="font-bold text-gray-700 mb-0.5 text-sm">Distribución por especie</p>
+          <p className="text-xs text-gray-500 mb-2">
+            Proporción de mascotas reportadas según especie.
+          </p>
           {statsEsp && (
             <>
-              <ResponsiveContainer width="100%" height={160}>
+              <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
                   <Pie
                     data={statsEsp}
@@ -109,20 +116,28 @@ export function DashboardPage() {
                     innerRadius={45}
                     outerRadius={70}
                     dataKey="value"
+                    label={({ percent }) => `${Math.round(percent * 100)}%`}
+                    labelLine={false}
                   >
                     {statsEsp.map((e, i) => (
                       <Cell key={i} fill={e.color} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip
+                    formatter={(value, name) => {
+                      const total = statsEsp.reduce((s, x) => s + x.value, 0) || 1;
+                      const n = Math.round((value * total) / 100);
+                      return [`${value}% (${n} mascotas)`, name];
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
-              <div className="space-y-1 mt-2">
+              <div className="space-y-1.5 mt-2 border-t pt-2">
                 {statsEsp.map((d) => (
                   <div key={d.name} className="flex items-center gap-2 text-xs">
-                    <span className="w-3 h-3 rounded-full" style={{ background: d.color }} />
-                    <span className="text-gray-600">{d.name}</span>
-                    <span className="ml-auto font-medium">{d.value}%</span>
+                    <span className="w-3 h-3 rounded-sm shrink-0" style={{ background: d.color }} />
+                    <span className="text-gray-700 font-medium">{d.name}</span>
+                    <span className="ml-auto text-gray-500">{d.value}%</span>
                   </div>
                 ))}
               </div>
